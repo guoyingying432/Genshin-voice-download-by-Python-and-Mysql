@@ -120,8 +120,7 @@ async def main():
     base_data = await get_url(baseurl)
     content_bs = BeautifulSoup(base_data, 'lxml')
     raw_data_5star = content_bs.find_all("div", class_='card_container card_5 hidden')
-    raw_data_4star = content_bs.find_all("div", class_='card_container card_4 hidden')
-    raw_data = raw_data_5star# + raw_data_4star
+    raw_data = raw_data_5star
     char_list = {}
     for i in raw_data[:10]:
         char_url = "https://genshin-impact.fandom.com" + i.find("a")["href"] + "/Voice-Overs/Japanese"
@@ -136,7 +135,6 @@ async def main():
         voice_bs = BeautifulSoup(cahr_voice_data, 'lxml')
         voice_data = voice_bs.find_all("table", class_='wikitable')
 
-        # voice_data = voice_bs.find_all("span",class_='audio-button custom-theme hidden')
         tasks = []
         if len(voice_data) // 2 == 6:
             audio_index = [0, 4, 8]
@@ -147,7 +145,6 @@ async def main():
         for g in audio_index:
             #print("audio index",g)
             for k in voice_data[g].tbody.find_all("tr")[1:]:
-                #print("tr",k)
                 if len(k.find_all("th")) == 0:
                     audio_title = temp_title
                 else:
@@ -158,28 +155,13 @@ async def main():
                 for j in k.td.find_all("span", class_='audio-button custom-theme hidden'):
                     audio_url.append(j.find_all("a")[0]["href"])
                 for j in k.td.find_all("span", lang='ja'):
-                    #print(type(j))
-                    #print("hello//////////")
                     print(j.string)
                     voice_content=j.string
-                #print(voice_content)
-                #print(audio_title)
                 audio_chinese_title = ''.join(re.findall('[\u0800-\u9fa5]', audio_title))
-                #print(audio_chinese_title)
 
                 if len(audio_url) == 1:
                     tasks.append(
                         download(audio_url[0], i, "{}.wav".format(audio_title),voice_content))
-                """
-                elif len(audio_url) > 1:
-                    for index, j in enumerate(audio_url):
-                        tasks.append(
-                            download(j, i, "{}{}.wav".format(audio_chinese_title, str(index + 1))))
-                """
-                # await download(audio_url,i,"{}.ogg".format(audio_chinese_title))
-
-                # audio_url = k.find("a")["href"]
-                # print(audio_url)
 
         await asyncio.wait(tasks)
 
