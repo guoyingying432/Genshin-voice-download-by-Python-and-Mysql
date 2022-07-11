@@ -47,8 +47,8 @@ class DataSaveToMySQL(object):
         if os.path.exists(dotenv_path):
             load_dotenv(dotenv_path)
     def save_mysql_voicedata(self,char_name,voice_position,voice_content,voice_title,loudness):
-        conn = pymysql.connect(host='127.0.0.1', port=3306,
-                               user='root', password='Zwt170910',
+        conn = pymysql.connect(host=' ', port= ,
+                               user=' ', password=' ',
                                db='genshin')
         cur = conn.cursor()
 
@@ -59,8 +59,8 @@ class DataSaveToMySQL(object):
         cur.close()
         conn.close()
     def save_mysql_char(self,char_name,voice_actor):
-        conn = pymysql.connect(host='127.0.0.1', port=3306,
-                               user='root', password='Zwt170910',
+        conn = pymysql.connect(host=' ', port= ,
+                               user=' ', password=' ',
                                db='genshin')
         cur = conn.cursor()
 
