@@ -34,9 +34,9 @@ class DataSaveToMySQL(object):
         if os.path.exists(dotenv_path):
             load_dotenv(dotenv_path)
     def get_voice_data(self,char_name,min_loudness=0):
-        conn = pymysql.connect(host='127.0.0.1', port=3306,
-                               user='root', password='Zwt170910',
-                               db='genshin')
+        conn = pymysql.connect(host=' ', port= ,
+                               user=' ', password=' ',
+                               db=' ')
         cur = conn.cursor()
         cur.execute("select * from charcter where char_name='{}';".format(char_name))
         result = cur.fetchone()
